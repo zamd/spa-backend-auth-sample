@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <p id="status"></p>
+
+<script>
+    function displayStatus(json) {
+        if (json) {
+          status = JSON.stringify(json) +
+          '<br/><a href="#" onclick="callApi()">Click here to XHR</a>';
+        }
+        else {
+          status = 'SPA cookie test ' +
+                '<br/><a href="#" onclick="callApi()">Click here to XHR</a>';
+        }
+
+        document.getElementById('status').innerHTML = status;
+    }
+
+    function callApi() {
+        let url = '/users/me';
+        const params = {
+            headers: {
+                'content-type': 'application/json'
+            },
+            method: 'POST'
+        };
+        fetch(url, params)
+            .then(data => data.json())
+            .then(value => {
+                displayStatus(value);
+            })
+            .catch(err => console.log('error in callApi call: ' + err));
+    }
+    displayStatus();
+</script>
+  </body>
+</html>
